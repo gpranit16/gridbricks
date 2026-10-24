@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: uk-wind-forecast-analytics-api
+    runtime: python
+    region: frankfurt
+    plan: free
+    buildCommand: "pip install -r backend/requirements.txt"
+    startCommand: "uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: MONGODB_URI
+        sync: false
+      - key: DATABASE_NAME
+        value: gopratle
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: DEFAULT_CUTOFF_TIME
+        value: "11:00"
+      - key: DEFAULT_START_DATE
+        value: "2026-01-01"
+      - key: DEFAULT_END_DATE
+        value: "2026-01-31"
+    healthCheckPath: /api/health
